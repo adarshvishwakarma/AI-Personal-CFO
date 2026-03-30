@@ -1,112 +1,303 @@
-# AI-Personal-CFO
-An AI-powered financial assistant that:  Tracks expenses automatically Predicts future spending Suggests savings/investments Alerts before overspending
+# 🚀 AI Personal CFO - Complete Microservices Project
 
+**Your AI-Powered Personal Finance Assistant for the Middle Class**
 
-# 🎯 AI Personal CFO - Project Summary & Quick Reference
-
-## 📦 What You Have
-
-You now have **4 comprehensive documentation files** totaling **~4,500 lines** covering:
-
-### 1. **README.md** (926 lines)
-- Project overview & business model
-- Quick start guide (5 minutes to running locally)
-- Complete API endpoints reference
-- Development guide for setting up IDE
-- Deployment options (Docker, K8s, AWS)
-- Tech stack & tools
-
-### 2. **AI-CFO-Architecture.md** (926 lines)
-- **Complete system design** with visual architecture diagrams
-- **6 microservices** with detailed specifications:
-  - User Service (auth, profiles)
-  - Transaction Service (expense tracking, categorization)
-  - Budget Service (forecasting, alerts)
-  - Analytics Service (anomalies, insights)
-  - Investment Service (recommendations, portfolio)
-  - Notification Service (multi-channel alerts)
-- **Kafka events architecture** with topic mappings
-- **Redis caching strategy** with TTL configurations
-- **AI/ML integration details**:
-  - NLP categorization (BERT)
-  - Time series forecasting (ARIMA/Prophet)
-  - Anomaly detection (Isolation Forest)
-  - Recommendation engine (Collaborative Filtering)
-- Database schema (SQL) with indexes
-- API design patterns
-- Deployment architecture
-- KPIs & success metrics
-- **5-phase development roadmap**
-
-### 3. **AI-CFO-Implementation-Guide.md** (1,658 lines)
-- **Complete project structure** with directory layout
-- **Production-ready code examples** for:
-  - Parent POM.xml (all dependencies)
-  - User Service (entity, service, controller)
-  - Transaction Service (categorization, caching)
-  - Budget Service (forecasting, ML integration)
-  - Analytics Service (anomaly detection)
-  - Investment Service (recommendations)
-- **Python ML Service** (FastAPI):
-  - NLP models (HuggingFace Transformers)
-  - Forecasting (statsmodels)
-  - Anomaly detection (scikit-learn)
-  - API routes with error handling
-- **Docker Compose** (complete local dev setup)
-- **application.yml** configurations for production
-- Getting started commands
-- Performance benchmarks
-
-### 4. **AI-CFO-Deployment-Guide.md** (1,092 lines)
-- **Local development setup** with prerequisites
-- **Docker deployment** with build instructions
-- **Kubernetes manifests** (YAML):
-  - Namespaces, secrets, ConfigMaps
-  - PostgreSQL deployment (StatefulSet)
-  - Redis deployment
-  - Kafka deployment
-  - Microservice deployments with HPA (auto-scaling)
-- **AWS deployment** (EKS, RDS, ElastiCache)
-- **Monitoring & alerting**:
-  - Prometheus configuration
-  - Grafana dashboards
-  - Alert rules
-- **Database management** (Flyway migrations, backups)
-- **Performance tuning** (JVM, database, Redis)
-- **Troubleshooting guide** (memory, connections, lag)
-- Production deployment checklist
-- Maintenance tasks (weekly, monthly, quarterly)
+A production-ready Spring Boot microservices architecture that automates financial management with AI/ML capabilities.
 
 ---
 
-## 🚀 Quick Start (5 Minutes)
+## 📋 Table of Contents
+
+1. [Project Overview](#project-overview)
+2. [Key Features](#key-features)
+3. [Architecture](#architecture)
+4. [Tech Stack](#tech-stack)
+5. [Quick Start](#quick-start)
+6. [Project Structure](#project-structure)
+7. [API Endpoints](#api-endpoints)
+8. [Development Guide](#development-guide)
+9. [Deployment](#deployment)
+10. [Contributing](#contributing)
+
+---
+
+## 🎯 Project Overview
+
+**AI Personal CFO** is an intelligent financial assistant designed for middle-class users in India and other emerging markets. It leverages advanced AI/ML models to provide real-time financial insights, automated expense tracking, spending predictions, and personalized investment recommendations.
+
+### Business Model
+- **Free Tier**: Basic expense tracking, category-wise budgets
+- **Premium Tier** ($5-10/month): Advanced analytics, forecasting, investment recommendations
+- **Enterprise Tier**: B2B partnerships with fintech platforms, white-label solutions
+
+### Market Opportunity
+- **TAM**: $2B+ (Financial wellness software market)
+- **SAM**: $500M (Middle-class personal finance segment)
+- **SOM**: $50M (Achievable in 3-5 years)
+
+---
+
+## ✨ Key Features
+
+### 1. **Intelligent Expense Tracking**
+- Bank account integration (via Plaid API)
+- Receipt scanning with OCR
+- Auto-categorization using NLP
+- Duplicate detection
+- Manual transaction entry
+
+### 2. **Spending Forecasting**
+- ARIMA-based time series forecasting
+- Category-wise predictions
+- Seasonal trend analysis
+- 30/60/90-day forecasts with confidence intervals
+
+### 3. **Smart Budget Management**
+- Multi-level budgets (monthly, quarterly, yearly)
+- Budget vs actual comparison
+- Real-time budget alerts (80% threshold)
+- Category-wise budget optimization
+
+### 4. **Anomaly Detection**
+- Unusual spending alerts
+- Isolation Forest ML model
+- Context-aware anomaly scoring
+- Peer comparison analytics
+
+### 5. **AI-Powered Insights**
+- Spending pattern analysis
+- Monthly financial reports
+- Cost reduction recommendations
+- Cash flow optimization tips
+
+### 6. **Investment Recommendations**
+- Risk-adjusted portfolio suggestions
+- SIP calculator
+- Asset allocation recommendations
+- Investment goal tracking
+
+### 7. **Real-time Notifications**
+- Multi-channel alerts (Push, Email, SMS)
+- Customizable notification preferences
+- Goal milestone celebrations
+- Investment opportunity alerts
+
+---
+
+## 🏗️ Architecture
+
+### Microservices Pattern
+
+```
+┌─────────────────────────────────────────┐
+│        Client Applications               │
+│  (Mobile, Web, Smart Assistants)        │
+└─────────────────┬───────────────────────┘
+                  │
+         ┌────────▼────────┐
+         │  API Gateway    │
+         │ (Rate Limit,    │
+         │  Auth, Routing) │
+         └────────┬────────┘
+                  │
+    ┌─────────────┼─────────────┐
+    │             │             │
+    ▼             ▼             ▼
+ User       Transaction      Budget
+Service      Service        Service
+    │             │             │
+    └─────────────┼─────────────┘
+                  │
+         ┌────────▼────────┐
+         │  Kafka Bus      │
+         │ (Event Stream)  │
+         └────────┬────────┘
+                  │
+    ┌─────────────┼──────────────────┐
+    │             │                  │
+    ▼             ▼                  ▼
+Analytics    Investment        Notification
+Service      Service           Service
+    │             │                  │
+    └─────────────┼──────────────────┘
+                  │
+    ┌─────────────▼───────────┐
+    │   Redis Cache Layer     │
+    │  (Predictions, Models)  │
+    └─────────────┬───────────┘
+                  │
+    ┌─────────────▼───────────┐
+    │   Data Layer            │
+    │ (PostgreSQL, Elastic)   │
+    └─────────────────────────┘
+                  │
+    ┌─────────────▼───────────┐
+    │   ML Services (Python)  │
+    │  • Categorization       │
+    │  • Forecasting          │
+    │  • Anomaly Detection    │
+    └─────────────────────────┘
+```
+
+### Data Flow
+
+```
+User Transactions
+    ↓
+Transaction Service (Validation, Categorization)
+    ↓
+Kafka Event (transaction.created)
+    ↓
+┌─────────────────────────────────┐
+│ Multiple Consumers:             │
+│ • Budget Service (Alert Check)  │
+│ • Analytics Service (Anomaly)   │
+│ • Investment Service (Goals)    │
+└─────────────────────────────────┘
+    ↓
+Redis Cache (Updated Predictions)
+    ↓
+User Dashboard + Notifications
+```
+
+---
+
+## 💻 Tech Stack
+
+### Backend
+- **Framework**: Spring Boot 3.2.0
+- **Language**: Java 21
+- **Build**: Maven 3.8+
+- **Reactive**: Project Reactor (Async)
+
+### Data
+- **Database**: PostgreSQL 15 (OLTP)
+- **Cache**: Redis 7.0 (L2 Cache)
+- **Search**: Elasticsearch 8.5
+- **Time-Series** (optional): InfluxDB 2.7
+
+### Message Queue
+- **Broker**: Apache Kafka 3.5.0
+- **Schema Registry**: Confluent Schema Registry
+
+### ML/AI
+- **Framework**: Python 3.10+
+- **APIs**: FastAPI, Flask
+- **ML Libraries**: scikit-learn, TensorFlow, Prophet, ARIMA
+- **NLP**: HuggingFace Transformers
+
+### DevOps
+- **Containerization**: Docker
+- **Orchestration**: Kubernetes 1.28+
+- **Cloud**: AWS (EKS, RDS, ElastiCache)
+- **CI/CD**: GitHub Actions
+
+### Monitoring
+- **Metrics**: Prometheus + Micrometer
+- **Visualization**: Grafana
+- **Tracing**: Jaeger + Spring Cloud Sleuth
+- **Logs**: ELK Stack (Elasticsearch, Logstash, Kibana)
+
+---
+
+## 🚀 Quick Start
+
+### Prerequisites
 
 ```bash
-# 1. Clone the repository (when it's created)
+# System Requirements
+- Java 21+
+- Maven 3.8+
+- Docker & Docker Compose
+- Python 3.10+
+- Git
+
+# Verify
+java -version    # Should be 21+
+mvn -version     # Should be 3.8+
+docker --version
+```
+
+### 1. Clone Repository
+
+```bash
 git clone https://github.com/yourorg/ai-cfo.git
 cd ai-cfo
+```
 
-# 2. Create environment file
+### 2. Start Infrastructure
+
+```bash
+# Create environment file
 cp .env.example .env
 
-# 3. Start all services
+# Edit with your credentials
+nano .env
+
+# Start all services
 docker-compose up -d
 
-# 4. Wait 30 seconds for services to initialize
+# Wait for services to be healthy
+docker-compose ps
 sleep 30
 
-# 5. Build all microservices
+# Verify connectivity
+docker-compose logs postgres
+```
+
+### 3. Build Services
+
+```bash
+# Build all modules
 mvn clean package -DskipTests
 
-# 6. Run individual services (in separate terminals)
-cd user-service && mvn spring-boot:run
-cd transaction-service && mvn spring-boot:run
-cd budget-service && mvn spring-boot:run
+# Or build specific service
+cd user-service && mvn clean package -DskipTests
+```
 
-# 7. Access Swagger UI
-open http://localhost:8080/swagger-ui.html
+### 4. Run Services (Development)
 
-# 8. Test API
+```bash
+# Terminal 1 - User Service
+cd user-service
+mvn spring-boot:run
+
+# Terminal 2 - Transaction Service
+cd transaction-service
+mvn spring-boot:run
+
+# Terminal 3 - Budget Service
+cd budget-service
+mvn spring-boot:run
+
+# Terminal 4 - Analytics Service
+cd analytics-service
+mvn spring-boot:run
+
+# Terminal 5 - Notification Service
+cd notification-service
+mvn spring-boot:run
+```
+
+### 5. Access Services
+
+```
+API Gateway:        http://localhost:8080
+Swagger UI:         http://localhost:8080/swagger-ui.html
+PostgreSQL:         localhost:5432 (user: postgres)
+Redis:              localhost:6379
+Kafka:              localhost:9092
+Zookeeper:          localhost:2181
+Elasticsearch:      http://localhost:9200
+Prometheus:         http://localhost:9090
+Grafana:            http://localhost:3000
+Jaeger:             http://localhost:16686
+```
+
+### 6. Test API
+
+```bash
+# Register user
 curl -X POST http://localhost:8080/api/users/register \
   -H "Content-Type: application/json" \
   -d '{
@@ -115,412 +306,501 @@ curl -X POST http://localhost:8080/api/users/register \
     "fullName": "John Doe",
     "phoneNumber": "+91-9876543210"
   }'
+
+# Create transaction
+curl -X POST http://localhost:8080/api/transactions \
+  -H "Authorization: Bearer YOUR_JWT_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "amount": 500.00,
+    "merchantName": "Starbucks",
+    "description": "Coffee",
+    "transactionDate": "2024-03-29T10:30:00",
+    "paymentMethod": "credit_card"
+  }'
 ```
 
 ---
 
-## 📊 Project Statistics
-
-| Metric | Value |
-|--------|-------|
-| **Microservices** | 6 services |
-| **Database Tables** | 10+ entities |
-| **Kafka Topics** | 7 event streams |
-| **Redis Cache Keys** | 20+ patterns |
-| **API Endpoints** | 40+ REST endpoints |
-| **Python ML Models** | 4 specialized models |
-| **Lines of Documentation** | 4,500+ |
-| **Code Examples** | 50+ |
-| **Development Roadmap** | 5 phases |
-| **Estimated Dev Effort** | ~5 months (2-3 people) |
-| **Technology Stack** | 15+ core technologies |
-
----
-
-## 🏗️ System Architecture (High-Level)
+## 📁 Project Structure
 
 ```
-┌────────────────────────────────────┐
-│      Client Applications           │
-│  (Mobile, Web, Smart Assistants)   │
-└─────────────┬──────────────────────┘
-              │
-      ┌───────▼───────┐
-      │  API Gateway  │
-      │ + Auth + Rate │
-      └───────┬───────┘
-              │
-    ┌─────────┼──────────┐
-    │         │          │
-    ▼         ▼          ▼
-  User    Transaction  Budget
-Service    Service    Service
-    │         │          │
-    └─────────┼──────────┘
-              │
-        ┌─────▼────────┐
-        │ Kafka (Hub)  │
-        └─────┬────────┘
-              │
-    ┌─────────┼──────────────┐
-    │         │              │
-    ▼         ▼              ▼
-Analytics Investment    Notification
-Service    Service      Service
-    │         │              │
-    └─────────┼──────────────┘
-              │
-    ┌─────────▼────────────┐
-    │  Redis + PostgreSQL  │
-    │  + Elasticsearch     │
-    └──────────────────────┘
-              │
-    ┌─────────▼────────────┐
-    │  Python ML Services  │
-    │  (BERT, ARIMA, etc)  │
-    └──────────────────────┘
+ai-cfo/
+├── api-gateway/                   # Spring Cloud Gateway
+│   ├── src/main/java/...
+│   ├── pom.xml
+│   └── application.yml
+│
+├── user-service/                  # User Management & Auth
+│   ├── src/main/java/...
+│   │   ├── controller/
+│   │   ├── service/
+│   │   ├── entity/
+│   │   ├── security/
+│   │   └── exception/
+│   ├── pom.xml
+│   └── application.yml
+│
+├── transaction-service/           # Expense Tracking & Categorization
+│   ├── src/main/java/...
+│   │   ├── controller/
+│   │   ├── service/
+│   │   ├── entity/
+│   │   ├── kafka/
+│   │   ├── external/              # Bank Integration, OCR
+│   │   └── ml/                    # ML Service Client
+│   ├── pom.xml
+│   └── application.yml
+│
+├── budget-service/                # Budget & Forecasting
+│   ├── src/main/java/...
+│   │   ├── controller/
+│   │   ├── service/
+│   │   ├── entity/
+│   │   ├── kafka/                 # Event Listeners
+│   │   └── ml/
+│   ├── pom.xml
+│   └── application.yml
+│
+├── analytics-service/             # Spending Analysis & Anomalies
+│   ├── src/main/java/...
+│   │   ├── controller/
+│   │   ├── service/
+│   │   ├── kafka/
+│   │   └── ml/
+│   ├── pom.xml
+│   └── application.yml
+│
+├── investment-service/            # Portfolio & Recommendations
+│   ├── src/main/java/...
+│   │   ├── controller/
+│   │   ├── service/
+│   │   ├── entity/
+│   │   └── ml/
+│   ├── pom.xml
+│   └── application.yml
+│
+├── notification-service/          # Alerts & Notifications
+│   ├── src/main/java/...
+│   │   ├── controller/
+│   │   ├── service/
+│   │   ├── kafka/                 # All event listeners
+│   │   └── external/              # FCM, SendGrid, Twilio
+│   ├── pom.xml
+│   └── application.yml
+│
+├── ml-service/                    # Python ML Services
+│   ├── app/
+│   │   ├── main.py
+│   │   ├── models/
+│   │   │   ├── categorization.py  # BERT NLP
+│   │   │   ├── forecasting.py     # ARIMA/Prophet
+│   │   │   ├── anomaly_detection.py
+│   │   │   └── recommendations.py
+│   │   └── routes/
+│   ├── requirements.txt
+│   ├── Dockerfile
+│   └── docker-compose-ml.yml
+│
+├── kubernetes/                    # K8s manifests
+│   ├── namespace.yaml
+│   ├── secrets.yaml
+│   ├── postgres-deployment.yaml
+│   ├── redis-deployment.yaml
+│   ├── kafka-deployment.yaml
+│   └── services/
+│       ├── transaction-service-deployment.yaml
+│       ├── budget-service-deployment.yaml
+│       └── ...
+│
+├── docker-compose.yml             # Local dev environment
+├── pom.xml                        # Parent POM
+├── .gitignore
+├── README.md
+└── docs/
+    ├── API.md
+    ├── ARCHITECTURE.md
+    ├── DEPLOYMENT.md
+    └── CONTRIBUTING.md
 ```
 
 ---
 
-## 🎯 Key Components Breakdown
+## 🔌 API Endpoints
 
-### 1. User Service (Port 8081)
-**Responsibility**: User accounts, authentication, subscriptions
+### User Service
+```
+POST   /api/users/register              # Register user
+POST   /api/users/login                 # Login
+GET    /api/users/me                    # Get profile
+PUT    /api/users/{id}/profile          # Update profile
+POST   /api/users/{id}/upgrade          # Upgrade subscription
+```
 
-**Key Endpoints**:
-- `POST /api/users/register` - Register new user
-- `POST /api/users/login` - Login & get JWT
-- `GET /api/users/me` - Get current profile
-- `PUT /api/users/{id}/profile` - Update profile
+### Transaction Service
+```
+POST   /api/transactions                # Create transaction
+GET    /api/transactions?month=2024-03  # Get monthly transactions
+GET    /api/transactions/recent         # Get recent transactions
+POST   /api/transactions/bulk-import    # Upload CSV
+POST   /api/bank-connections/connect    # Connect bank account
+POST   /api/transactions/scan-receipt   # OCR receipt
+GET    /api/transactions/categories     # Get categories
+```
 
-**Technologies**: Spring Boot, PostgreSQL, JWT, OAuth2
+### Budget Service
+```
+POST   /api/budgets                     # Create budget
+GET    /api/budgets/{month}             # Get budgets for month
+PUT    /api/budgets/{id}                # Update budget
+GET    /api/goals                       # Get financial goals
+POST   /api/goals                       # Create goal
+GET    /api/forecasts/next-month        # Get forecast
+GET    /api/budgets/{id}/vs-actual      # Budget analysis
+```
 
----
+### Analytics Service
+```
+GET    /api/analytics/spending-by-category
+GET    /api/analytics/trends/{category}
+GET    /api/analytics/anomalies
+GET    /api/analytics/peer-comparison
+GET    /api/analytics/insights
+GET    /api/analytics/monthly-summary
+```
 
-### 2. Transaction Service (Port 8082)
-**Responsibility**: Expense tracking, categorization, bank integration
+### Investment Service
+```
+GET    /api/investments/profile
+POST   /api/investments/profile
+GET    /api/investments/portfolio
+POST   /api/investments/add-asset
+GET    /api/investments/recommendations
+GET    /api/investments/portfolio/performance
+GET    /api/investments/asset-allocation
+```
 
-**Key Features**:
-- Auto-categorization using NLP (BERT)
-- Receipt scanning with OCR
-- Bank account integration (Plaid API)
-- Duplicate detection
-- Manual transaction entry
-
-**Key Endpoints**:
-- `POST /api/transactions` - Create transaction
-- `GET /api/transactions?month=2024-03` - Get by month
-- `POST /api/bank-connections/connect` - Connect bank
-- `POST /api/transactions/scan-receipt` - Receipt OCR
-
-**Technologies**: Spring Boot, PostgreSQL, Redis, Kafka Producer, Python ML
-
----
-
-### 3. Budget Service (Port 8083)
-**Responsibility**: Budget management, forecasting, spending predictions
-
-**Key Features**:
-- Multi-level budgets (monthly, quarterly, yearly)
-- Spending forecasting (ARIMA/Prophet)
-- Budget alerts (80% threshold)
-- Goal tracking
-- Budget optimization recommendations
-
-**Key Endpoints**:
-- `POST /api/budgets` - Create budget
-- `GET /api/budgets/{month}` - Get budgets
-- `GET /api/forecasts/next-month` - Get forecast
-- `GET /api/goals` - Get financial goals
-
-**Technologies**: Spring Boot, PostgreSQL, Redis, Kafka (Consumer/Producer), Python ML
-
----
-
-### 4. Analytics Service (Port 8084)
-**Responsibility**: Spending insights, pattern analysis, anomaly detection
-
-**Key Features**:
-- Spending pattern analysis
-- Anomaly detection (Isolation Forest)
-- Category trends
-- Peer comparison
-- Automated insights generation
-
-**Key Endpoints**:
-- `GET /api/analytics/spending-by-category`
-- `GET /api/analytics/anomalies`
-- `GET /api/analytics/insights`
-- `GET /api/analytics/trends/{category}`
-
-**Technologies**: Spring Boot, PostgreSQL, Redis, Elasticsearch, Kafka Consumer, Python ML
+### Notification Service
+```
+GET    /api/alerts/preferences
+PUT    /api/alerts/preferences
+GET    /api/notifications
+PUT    /api/notifications/{id}/read
+```
 
 ---
 
-### 5. Investment Service (Port 8085)
-**Responsibility**: Investment recommendations, portfolio tracking
+## 💡 Development Guide
 
-**Key Features**:
-- Risk-adjusted recommendations
-- Asset allocation suggestions
-- Portfolio performance tracking
-- SIP calculator
-- Investment goal monitoring
+### Setting Up IDE (IntelliJ IDEA)
 
-**Key Endpoints**:
-- `GET /api/investments/recommendations`
-- `GET /api/investments/portfolio`
-- `GET /api/investments/asset-allocation`
-- `POST /api/investments/add-asset`
+1. **Open Project**
+   ```
+   File → Open → ai-cfo/pom.xml
+   ```
 
-**Technologies**: Spring Boot, PostgreSQL, Redis, Kafka Consumer, Python ML
+2. **Configure SDK**
+   ```
+   File → Project Structure → SDK → Java 21
+   ```
 
----
+3. **Enable Annotation Processing**
+   ```
+   Settings → Build, Execution, Deployment → Compiler → Annotation Processors
+   ✓ Enable annotation processing
+   ```
 
-### 6. Notification Service (Port 8086)
-**Responsibility**: Multi-channel alerts and notifications
+4. **Install Plugins**
+   - Lombok
+   - Kafka
+   - Spring Boot
+   - Docker
 
-**Key Features**:
-- Push notifications (Firebase Cloud Messaging)
-- Email alerts (SendGrid)
-- SMS alerts (Twilio)
-- Customizable alert preferences
-- Notification history
+5. **Create Run Configurations**
+   - Edit Configurations → Add Spring Boot
+   - Main class: `com.aicfo.{service}.{Service}Application`
+   - VM options: `-Dspring.profiles.active=dev`
 
-**Key Endpoints**:
-- `GET /api/notifications`
-- `PUT /api/notifications/{id}/read`
-- `GET /api/alerts/preferences`
-- `PUT /api/alerts/preferences`
+### Running Tests
 
-**Technologies**: Spring Boot, PostgreSQL, Kafka Consumer, FCM, SendGrid, Twilio
-
----
-
-## 📚 Technology Stack (Complete)
-
-### Backend
-- **Language**: Java 21
-- **Framework**: Spring Boot 3.2.0
-- **Async**: Project Reactor (WebFlux)
-- **Build**: Maven 3.8+
-- **Serialization**: Jackson + Lombok
-
-### Message Queue
-- **Broker**: Apache Kafka 3.5.0
-- **Schema**: Confluent Schema Registry (Avro)
-- **Pattern**: Event sourcing + CQRS
-
-### Data Storage
-- **OLTP**: PostgreSQL 15 (primary)
-- **Cache**: Redis 7.0 (L2 caching)
-- **Search**: Elasticsearch 8.5 (analytics)
-- **Time-Series**: InfluxDB 2.7 (optional)
-
-### AI/ML
-- **Language**: Python 3.10+
-- **Framework**: FastAPI
-- **NLP**: HuggingFace Transformers (BERT)
-- **Forecasting**: Prophet, statsmodels (ARIMA)
-- **ML**: scikit-learn (Isolation Forest)
-- **Deep Learning**: TensorFlow/PyTorch (optional)
-
-### DevOps
-- **Container**: Docker & Docker Compose
-- **Orchestration**: Kubernetes 1.28+
-- **Cloud**: AWS (EKS, RDS, ElastiCache)
-- **CI/CD**: GitHub Actions
-- **IaC**: Terraform (optional)
-
-### Monitoring
-- **Metrics**: Prometheus + Micrometer
-- **Visualization**: Grafana
-- **Tracing**: Jaeger + Spring Cloud Sleuth
-- **Logs**: ELK Stack (Elasticsearch, Logstash, Kibana)
-- **Alerting**: Alertmanager
-
-### External APIs
-- **Bank Integration**: Plaid API
-- **OCR**: Google Cloud Vision / Azure Computer Vision
-- **Email**: SendGrid
-- **SMS**: Twilio
-- **Push**: Firebase Cloud Messaging
-- **Market Data**: AlphaVantage / Finnhub
-
----
-
-## 🎓 Learning Path
-
-### Phase 1: Understanding (Week 1)
-- [ ] Read README.md (overview)
-- [ ] Read AI-CFO-Architecture.md (design)
-- [ ] Review system diagrams
-- [ ] Understand microservices pattern
-
-### Phase 2: Setup (Week 1-2)
-- [ ] Follow Quick Start guide
-- [ ] Get Docker & Java 21 running
-- [ ] Start local environment
-- [ ] Access Swagger UI
-- [ ] Create sample user
-
-### Phase 3: Development (Week 2-4)
-- [ ] Study User Service code
-- [ ] Study Transaction Service code
-- [ ] Study Budget Service code
-- [ ] Understand Kafka integration
-- [ ] Test APIs manually
-
-### Phase 4: Advanced (Week 4+)
-- [ ] Deploy to Kubernetes
-- [ ] Configure AWS resources
-- [ ] Setup monitoring & alerting
-- [ ] Performance tuning
-- [ ] Load testing
-
-### Phase 5: Production (Month 2+)
-- [ ] Security audit
-- [ ] Database optimization
-- [ ] API documentation
-- [ ] Team onboarding
-- [ ] Go-live preparation
-
----
-
-## 💡 Next Steps
-
-### 1. Create GitHub Repository
 ```bash
-# Initialize repository
-git init ai-cfo
-cd ai-cfo
+# Run all tests
+mvn clean test
 
-# Add files from documentation
-# Structure project according to directory layout
+# Run specific test class
+mvn test -Dtest=TransactionServiceTest
 
-# Push to GitHub
-git remote add origin https://github.com/yourorg/ai-cfo.git
-git push -u origin main
+# Run with coverage
+mvn clean test jacoco:report
+
+# View coverage report
+open target/site/jacoco/index.html
 ```
 
-### 2. Setup CI/CD Pipeline
-```yaml
-# .github/workflows/build.yml
-name: Build and Test
-on: [push, pull_request]
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-java@v2
-        with:
-          java-version: '21'
-      - run: mvn clean package
-      - run: mvn verify
+### Code Style & Conventions
+
+```java
+// Use Lombok for boilerplate
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class MyEntity {
+    // No getters/setters needed
+}
+
+// Use records for DTOs (Java 21)
+public record TransactionResponse(
+    UUID id,
+    BigDecimal amount,
+    String category
+) {}
+
+// Use SLF4J with Lombok
+@Slf4j
+public class MyService {
+    log.info("Message: {}", variable);
+}
 ```
 
-### 3. Prepare for Development
-- [ ] Set up development branch protection
-- [ ] Configure IDE (IntelliJ IDEA recommended)
-- [ ] Install Docker Desktop
-- [ ] Clone code examples from documentation
-- [ ] Run local environment
-- [ ] Test first API call
+### Creating a New Service
 
-### 4. Start Building
-**Week 1-2**: User Service + Basic Auth
-**Week 2-3**: Transaction Service + Auto-categorization
-**Week 3-4**: Budget Service + Forecasting
-**Week 4-5**: Analytics Service + Anomaly Detection
-**Week 5-6**: Investment Service + Recommendations
-**Week 6-7**: Notification Service + Alerts
-**Week 7-8**: Integration Testing + Polish
+```bash
+# 1. Create module
+mkdir my-service
+cd my-service
+mvn archetype:generate -DgroupId=com.aicfo -DartifactId=my-service
 
----
+# 2. Update parent pom.xml
+# Add <module>my-service</module>
 
-## 📞 Support & Resources
+# 3. Add dependencies
+# Update pom.xml with common dependencies
 
-### Documentation
-- **Architecture**: See AI-CFO-Architecture.md
-- **Implementation**: See AI-CFO-Implementation-Guide.md
-- **Deployment**: See AI-CFO-Deployment-Guide.md
-- **README**: See README.md for quick reference
+# 4. Create application
+# com.aicfo.myservice.MyServiceApplication
 
-### External Resources
-- Spring Boot: https://spring.io/projects/spring-boot
-- Kafka: https://kafka.apache.org/documentation
-- PostgreSQL: https://www.postgresql.org/docs
-- Redis: https://redis.io/documentation
-- Kubernetes: https://kubernetes.io/docs
-- Docker: https://docs.docker.com
-- AWS: https://docs.aws.amazon.com
+# 5. Create bootstrap
+# application.yml
 
-### Community
-- Spring Boot Community: https://spring.io/community
-- Kafka Community: https://kafka.apache.org/community
-- Kubernetes Community: https://kubernetes.io/community
-- Stack Overflow tags: `spring-boot`, `apache-kafka`, `kubernetes`
+# 6. Create Dockerfile
+```
 
 ---
 
-## 🎉 You're Ready!
+## 🚢 Deployment
 
-You have everything needed to build an **enterprise-grade AI Personal CFO system**:
+### Docker Compose (Local)
 
-✅ Complete architecture documentation
-✅ Database schema & design
-✅ Production-ready code examples
-✅ Microservices patterns
-✅ Kafka integration
-✅ AI/ML models
-✅ Kubernetes manifests
-✅ Deployment guides
-✅ Monitoring setup
-✅ API specifications
+```bash
+docker-compose up -d
+```
 
----
+### Kubernetes (Production)
 
-## 📋 Checklist Before Starting Development
+```bash
+# Create namespace
+kubectl apply -f kubernetes/namespace.yaml
 
-- [ ] Java 21 installed and verified
-- [ ] Maven 3.8+ installed
-- [ ] Docker & Docker Compose installed
-- [ ] Git repository created
-- [ ] IDE configured (IntelliJ IDEA recommended)
-- [ ] Local environment tested (`docker-compose up`)
-- [ ] All documentation files reviewed
-- [ ] Team onboarded
-- [ ] Development guidelines established
-- [ ] Code review process defined
+# Deploy infrastructure
+kubectl apply -f kubernetes/postgresql-deployment.yaml
+kubectl apply -f kubernetes/redis-deployment.yaml
 
----
+# Deploy services
+kubectl apply -f kubernetes/services/
 
-**Version**: 1.0.0
-**Created**: March 2024
-**Status**: Complete & Production-Ready
+# Scale services
+kubectl scale deployment transaction-service --replicas=5 -n ai-cfo
+```
 
-**Total Documentation**: 4,500+ lines
-**Code Examples**: 50+
-**Diagrams**: 10+
-**Setup Time**: 5 minutes to working system
-**Development Time**: ~5 months (2-3 developers)
+### AWS (EKS)
+
+```bash
+# Create EKS cluster
+aws eks create-cluster --name ai-cfo-prod ...
+
+# Deploy
+kubectl apply -f kubernetes/
+```
+
+### See Full Deployment Guide
+
+Check the **AI-CFO-Deployment-Guide.md** for comprehensive instructions.
 
 ---
 
-## 📞 Get in Touch
+## 🧪 Performance Benchmarks
 
-Questions about implementation? The documentation covers:
-- Every service in detail
-- All major components
-- Deployment options
-- Troubleshooting
-- Performance tuning
-- Production best practices
+### Metrics (Baseline)
+- **API Response Time**: p95 < 200ms
+- **Transaction Processing**: 1000+ TPS (per instance)
+- **Cache Hit Ratio**: > 80%
+- **ML Inference Time**: < 50ms
+- **Kafka Consumer Lag**: < 1 minute
 
-**Start with README.md for a 5-minute overview, then dive into the specific guide you need!**
+### Load Testing
+
+```bash
+# Using JMeter/Gatling
+mvn gatling:execute
+```
 
 ---
 
-Good luck building the future of personal finance! 🚀
+## 📊 Monitoring & Alerts
+
+### Dashboards
+- **Grafana**: http://localhost:3000
+- **Prometheus**: http://localhost:9090
+- **Jaeger**: http://localhost:16686
+
+### Key Metrics
+- Request latency (p50, p95, p99)
+- Error rates by service
+- Kafka consumer lag
+- Cache hit ratio
+- Database connection pool
+- Redis memory usage
+
+---
+
+## 🔒 Security
+
+### Authentication
+- JWT tokens (HS256)
+- OAuth2 for bank connections
+- Rate limiting (100 req/min per user)
+
+### Data Protection
+- TLS/SSL for all communications
+- PII encryption
+- Secure credential storage
+- GDPR compliance (data export, deletion)
+
+### Best Practices
+- Secrets in environment variables
+- No credentials in code
+- Regular security audits
+- Dependency scanning (Snyk, OWASP)
+
+---
+
+## 📈 Roadmap
+
+### Phase 1 (Months 1-2) ✅ MVP
+- User authentication
+- Transaction tracking
+- Basic budgeting
+
+### Phase 2 (Months 3-4) 🔄 Core Features
+- Bank integration
+- Auto-categorization
+- Forecasting
+
+### Phase 3 (Months 5-6) 📊 Analytics
+- Spending insights
+- Anomaly detection
+- Investment recommendations
+
+### Phase 4 (Months 7-8) 🎯 Advanced
+- Goal-based planning
+- Mobile app
+- B2B partnerships
+
+### Phase 5 (Months 9+) 🌍 Scale
+- International expansion
+- API marketplace
+- White-label solution
+
+---
+
+## 🤝 Contributing
+
+### Code Standards
+- Java 21 features
+- Spring Boot best practices
+- Clean Architecture principles
+- SOLID principles
+
+### Pull Request Process
+1. Fork repository
+2. Create feature branch: `git checkout -b feature/amazing-feature`
+3. Commit changes: `git commit -m 'Add amazing feature'`
+4. Push to branch: `git push origin feature/amazing-feature`
+5. Open Pull Request
+
+### Reporting Bugs
+Use GitHub Issues with:
+- Clear description
+- Steps to reproduce
+- Expected vs actual behavior
+- Environment details
+
+---
+
+## 📚 Documentation
+
+1. **AI-CFO-Architecture.md** - System design, microservices, database schema
+2. **AI-CFO-Implementation-Guide.md** - Code examples, implementation details
+3. **AI-CFO-Deployment-Guide.md** - Deployment, operations, troubleshooting
+4. **API.md** - API specifications and examples (WIP)
+
+---
+
+## 📞 Support & Community
+
+- **Email**: support@aicfo.dev
+- **Issues**: GitHub Issues
+- **Discussions**: GitHub Discussions
+- **Slack**: [Join Community](https://slack.aicfo.dev)
+
+---
+
+## 📜 License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+---
+
+## 🙏 Acknowledgments
+
+- Spring Framework Team
+- Apache Kafka Team
+- Redis Community
+- Confluent Kafka Community
+- HuggingFace for NLP models
+- All open-source contributors
+
+---
+
+## 🎉 Let's Build the Future of Personal Finance!
+
+This is a comprehensive, production-ready microservices project that demonstrates:
+- ✅ Modern Spring Boot architecture
+- ✅ Microservices design patterns
+- ✅ Real-time event streaming (Kafka)
+- ✅ Intelligent caching (Redis)
+- ✅ AI/ML integration
+- ✅ Kubernetes deployment
+- ✅ Enterprise monitoring
+- ✅ Scalable system design
+
+**Ready to contribute? Start with the [Development Guide](#development-guide)!**
+
+---
+
+**Version**: 1.0.0  
+**Last Updated**: March 2024  
+**Maintained By**: AI CFO Team
+
+---
+
+## Quick Links
+
+- [Spring Boot Documentation](https://spring.io/projects/spring-boot)
+- [Apache Kafka Guide](https://kafka.apache.org/documentation/)
+- [Redis Best Practices](https://redis.io/)
+- [Kubernetes Docs](https://kubernetes.io/docs/)
+- [PostgreSQL Manual](https://www.postgresql.org/docs/)
+- [Docker Documentation](https://docs.docker.com/)
+- [AWS EKS Guide](https://docs.aws.amazon.com/eks/)
